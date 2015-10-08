@@ -1,7 +1,7 @@
 module Jsonapi
   class Document
     class Resource
-      attr_reader :id, :type, :attributes, :links
+      attr_reader :id, :type, :attributes, :links, :relationships
       def initialize(arguments)
         @id = arguments[:id]
         @type = arguments[:type]
