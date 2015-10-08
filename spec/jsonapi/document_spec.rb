@@ -20,6 +20,22 @@ describe Jsonapi::Document do
         end
       end
     end
+    
+    context "with nil data" do
+      let(:document) {{
+        "data": nil
+      }}
+      subject { described_class.new(document) }
+      it "sets" do
+        expect(subject.data.resource.nil?).to eq(true)
+      end
+      context "render" do
+        it "hash document" do
+          expect(subject.to_hash).to eq(document)
+        end
+      end
+    end
+    
     context "with meta" do
       let(:document) {{
         "meta": {

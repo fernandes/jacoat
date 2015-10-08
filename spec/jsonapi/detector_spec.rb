@@ -12,6 +12,12 @@ describe Jsonapi::Detector do
         }
         expect(described_class.what_is(document)).to eq('document')
       end
+      it "with nil data" do
+        document = {
+          "data": nil
+        }
+        expect(described_class.what_is(document)).to eq('document')
+      end
       it "with meta" do
         document = {
           "meta": {

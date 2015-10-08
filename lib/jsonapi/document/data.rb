@@ -12,6 +12,7 @@ module Jsonapi
       end
 
       def self.create_resource(arguments)
+        return nil if arguments.nil?
         if Detector.what_is(arguments) == "resource"
           return Resource.new(arguments)
         else
@@ -37,6 +38,7 @@ module Jsonapi
       end
       
       def to_hash
+        return nil unless @resource
         if @resource.is_a?(Array)
           array = []
           @resource.each do |data|
