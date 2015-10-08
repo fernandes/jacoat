@@ -13,7 +13,7 @@ module Jsonapi
       def initialize(type, body)
         @type = type.to_s
         process_data(body[:data])
-        process_body(body[:links])
+        process_body(body[:links]) if body.has_key?(:links)
       end
       
       def process_data(data)

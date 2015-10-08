@@ -11,7 +11,8 @@ describe Jsonapi::Document do
       }}
       subject { described_class.new(document) }
       it "sets" do
-        expect(subject.data).to eq(document[:data])
+        expect(subject.data.resource.type).to eq("articles")
+        expect(subject.data.resource.id).to eq("1")
       end
     end
     context "with meta" do
@@ -28,7 +29,8 @@ describe Jsonapi::Document do
       }}
       subject { described_class.new(document) }
       it "sets" do
-        expect(subject.meta).to eq(document[:meta])
+        expect(subject.meta.copyright).to eq("Copyright 2015 Example Corp.")
+        expect(subject.meta.authors.first).to eq("Yehuda Katz")
       end
     end
     context "with errors" do
@@ -39,7 +41,92 @@ describe Jsonapi::Document do
       }}
       subject { described_class.new(document) }
       it "sets" do
-        expect(subject.errors).to eq(document[:errors])
+        # TODO: implement error
+        # expect(subject.errors).to eq(document[:errors])
+      end
+    end
+    context "compound" do
+      let(:document) {
+        {
+          "data": [{
+            "type": "articles",
+            "id": "1",
+            "attributes": {
+              "title": "JSON API paints my bikeshed!"
+            },
+            "links": {
+              "self": "http://example.com/articles/1"
+            },
+            "relationships": {
+              "author": {
+                "links": {
+                  "self": "http://example.com/articles/1/relationships/author",
+                  "related": "http://example.com/articles/1/author"
+                },
+                "data": { "type": "people", "id": "9" }
+              },
+              "comments": {
+                "links": {
+                  "self": "http://example.com/articles/1/relationships/comments",
+                  "related": "http://example.com/articles/1/comments"
+                },
+                "data": [
+                  { "type": "comments", "id": "5" },
+                  { "type": "comments", "id": "12" }
+                ]
+              }
+            }
+          }],
+          "included": [{
+            "type": "people",
+            "id": "9",
+            "attributes": {
+              "first-name": "Dan",
+              "last-name": "Gebhardt",
+              "twitter": "dgeb"
+            },
+            "links": {
+              "self": "http://example.com/people/9"
+            }
+          }, {
+            "type": "comments",
+            "id": "5",
+            "attributes": {
+              "body": "First!"
+            },
+            "relationships": {
+              "author": {
+                "data": { "type": "people", "id": "2" }
+              }
+            },
+            "links": {
+              "self": "http://example.com/comments/5"
+            }
+          }, {
+            "type": "comments",
+            "id": "12",
+            "attributes": {
+              "body": "I like XML better"
+            },
+            "relationships": {
+              "author": {
+                "data": { "type": "people", "id": "9" }
+              }
+            },
+            "links": {
+              "self": "http://example.com/comments/12"
+            }
+          }]
+        }
+      }
+      subject { described_class.new(document) }
+      context "parses" do
+        it "2 resources on data" do
+          expect(subject.data.resources.size).to eq(1)
+        end
+        it "3 resources on included" do
+          expect(subject.included.resources.size).to eq(3)
+        end
       end
     end
   end

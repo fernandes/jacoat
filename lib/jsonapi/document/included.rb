@@ -1,11 +1,17 @@
 module Jsonapi
   class Document
     class Included
-      # attr_reader :self, :related
+      def self.process(arguments)
+        resources = []
+        arguments.each do |item|
+          resources << Resource.new(item)
+        end
+        included = Included.new
+        included.resources = resources
+        included
+      end
+      attr_accessor :resources
       def initialize(arguments = {})
-        # %w{ self related }.each do |type|
-        #   self.instance_variable_set("@#{type}", arguments[type.to_sym])
-        # end
       end
     end
   end

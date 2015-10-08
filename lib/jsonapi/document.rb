@@ -14,10 +14,12 @@ module Jsonapi
     attr_reader :data, :errors, :meta, :jsonapi, :links, :included
     def initialize(arguments = {})
       validate_arguments(arguments)
-      
-      %w{ data errors meta jsonapi links included }.each do |type|
-        self.instance_variable_set("@#{type}", arguments[type.to_sym])
-      end
+      @data = Data.process(arguments[:data]) if arguments.has_key?(:data)
+      # @errors = Error.new
+      @meta = Meta.new(arguments[:meta]) if arguments.has_key?(:meta) 
+      @jsonapi = Jsonapi.new(arguments[:jsonapi]) if arguments.has_key?(:jsonapi)
+      @links = Link.process(arguments[:links]) if arguments.has_key?(:links)
+      @included = Included.process(arguments[:included]) if arguments.has_key?(:included)
     end
     
     def validate_arguments(arguments)

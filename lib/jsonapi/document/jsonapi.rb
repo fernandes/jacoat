@@ -1,11 +1,9 @@
 module Jsonapi
   class Document
     class Jsonapi
-      # attr_reader :self, :related
+      attr_reader :version
       def initialize(arguments = {})
-        # %w{ self related }.each do |type|
-        #   self.instance_variable_set("@#{type}", arguments[type.to_sym])
-        # end
+        @version = arguments[:version]
       end
     end
   end
