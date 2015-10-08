@@ -1,10 +1,48 @@
 module Jsonapi
   class Document
-    class Links
-      attr_reader :self, :related
+    class Link
+      def self.process(hash)
+        Link.new(hash)
+      end
+
       def initialize(arguments = {})
-        %w{ self related }.each do |type|
-          self.instance_variable_set("@#{type}", arguments[type.to_sym])
+        @hash = {}
+        process_links(arguments)
+      end
+      
+      def method_missing(m, *args)
+        #setter
+        if /^(\w+)=$/ =~ m 
+          @hash[:"#{$1}"] = args[0]
+        end
+        #getter
+        @hash[:"#{m}"]
+      end
+      
+      private      
+        def process_links(arguments)
+          arguments.each_pair do |k, v|
+            if v.is_a?(String)
+              link = Simple.new(v)
+            else
+              link = Complex.new(v)
+            end
+            send("#{k}=", link)
+          end
+        end
+      
+      class Simple
+        attr_reader :href
+        def initialize(href)
+          @href = href
+        end
+      end
+      
+      class Complex
+        attr_reader :href, :meta
+        def initialize(arguments)
+          @href = arguments[:href]
+          @meta = Meta.new(arguments[:meta])
         end
       end
     end

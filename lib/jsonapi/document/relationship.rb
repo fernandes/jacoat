@@ -1,7 +1,7 @@
 module Jsonapi
   class Document
     class Relationship
-      attr_reader :id, :type, :data
+      attr_reader :id, :type, :data, :links
       def self.process(hash)
         relationships = []
         hash.each_pair do |k, v|
@@ -21,7 +21,7 @@ module Jsonapi
       end
 
       def process_body(links)
-        @links = links
+        @links = Document::Link.process(links)
       end
     end
   end

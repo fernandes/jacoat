@@ -81,6 +81,18 @@ describe Jsonapi::Document::Relationship do
       it "type" do
         expect(subject.type).to eq("comments")
       end
+      context "links" do
+        context "first one" do
+          it "has href" do
+            expect(subject.links.self.href).to eq("http://example.com/articles/1/relationships/comments")
+          end
+        end
+        context "second one" do
+          it "has href" do
+            expect(subject.links.related.href).to eq("http://example.com/articles/1/comments")
+          end
+        end
+      end
       context "data" do
         it "data" do
           expect(subject.data.class).to eq(Array)

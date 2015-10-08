@@ -1,12 +1,26 @@
 module Jsonapi
   class Document
     class Meta
-      # attr_reader :self, :related
       def initialize(arguments = {})
-        # %w{ self related }.each do |type|
-        #   self.instance_variable_set("@#{type}", arguments[type.to_sym])
-        # end
+        @hash = {}
+        process_meta(arguments)
       end
+      
+      def method_missing(m, *args)
+        #setter
+        if /^(\w+)=$/ =~ m 
+          @hash[:"#{$1}"] = args[0]
+        end
+        #getter
+        @hash[:"#{m}"]
+      end
+      
+      private
+        def process_meta(arguments)
+          arguments.each_pair do |k, v|
+            send("#{k}=", v)
+          end
+        end
     end
   end
 end
