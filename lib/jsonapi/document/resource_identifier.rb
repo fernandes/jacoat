@@ -18,6 +18,13 @@ module Jsonapi
         @id = arguments[:id]
         @type = arguments[:type]
       end
+      
+      def to_hash
+        {
+          type: @type,
+          id: @id
+        }
+      end
     end
   end
 end

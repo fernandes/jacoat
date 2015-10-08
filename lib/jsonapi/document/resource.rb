@@ -16,6 +16,25 @@ module Jsonapi
           @relationships << Document::Relationship.new(k, v)
         end
       end
+      
+      def to_hash
+        hash = {
+          type: @type,
+          id: @id,
+          attributes: @attributes.to_hash
+        }
+        hash.merge!(links: @links.to_hash) if @links
+        hash.merge!(relationships: relationship_hash) if @relationships
+        hash
+      end
+      
+      def relationship_hash
+        hash = {}
+        @relationships.each do |relationship|
+          hash.merge!(relationship.to_hash)
+        end
+        hash
+      end
     end
   end
 end

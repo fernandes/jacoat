@@ -31,6 +31,12 @@ describe Jsonapi::Document::Relationship do
       expect(subject[0].type).to eq("author")
       expect(subject[1].type).to eq("comments")
     end
+    context "render" do
+      it "hash document" do
+        expect(subject[0].to_hash).to eq({author: document[:author]})
+        expect(subject[1].to_hash).to eq({comments: document[:comments]})
+      end
+    end
   end
 
   context "has one" do
@@ -44,8 +50,8 @@ describe Jsonapi::Document::Relationship do
       }
     }
   
+    subject { described_class.new("author", document) }
     describe "parses" do
-      subject { described_class.new("author", document) }
       it "type" do
         expect(subject.type).to eq("author")
       end
@@ -58,6 +64,11 @@ describe Jsonapi::Document::Relationship do
       end
       it "data has id" do
         expect(subject.data.id).to eq("9")
+      end
+    end
+    context "render" do
+      it "hash document" do
+        expect(subject.to_hash).to eq({author: document})
       end
     end
   end
@@ -76,8 +87,8 @@ describe Jsonapi::Document::Relationship do
       }
     }
   
+    subject { described_class.new("comments", document) }
     describe "parses" do
-      subject { described_class.new("comments", document) }
       it "type" do
         expect(subject.type).to eq("comments")
       end
@@ -114,6 +125,11 @@ describe Jsonapi::Document::Relationship do
             expect(subject.data[1].id).to eq("12")
           end
         end
+      end
+    end
+    context "render" do
+      it "hash document" do
+        expect(subject.to_hash).to eq({comments: document})
       end
     end
   end

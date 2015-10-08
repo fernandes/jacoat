@@ -19,6 +19,14 @@ module Jsonapi
         @hash[:"#{m}"]
       end
       
+      def to_hash
+        hash = {}
+        @hash.each_pair do |k, v|
+          hash[k] = v.to_hash
+        end
+        hash
+      end
+      
       private      
         def process_links(arguments)
           arguments.each_pair do |k, v|
@@ -36,6 +44,10 @@ module Jsonapi
         def initialize(href)
           @href = href
         end
+        
+        def to_hash
+          href
+        end
       end
       
       class Complex
@@ -43,6 +55,13 @@ module Jsonapi
         def initialize(arguments)
           @href = arguments[:href]
           @meta = Meta.new(arguments[:meta])
+        end
+        
+        def to_hash
+          hash = {}
+          hash.merge!(href: href) if @href
+          hash.merge!(meta: meta.to_hash) if @meta
+          hash
         end
       end
     end

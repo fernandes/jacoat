@@ -24,6 +24,11 @@ describe Jsonapi::Document::Data do
     it "is parsed" do
       expect(subject.resource.class).to eq(Jsonapi::Document::Resource)
     end
+    context "render" do
+      it "hash document" do
+        expect(subject.to_hash).to eq(document)
+      end
+    end
   end
   
   context "single resource identifier" do
@@ -33,6 +38,11 @@ describe Jsonapi::Document::Data do
     subject { described_class.process(document) }
     it "is parsed" do
       expect(subject.resource.class).to eq(Jsonapi::Document::ResourceIdentifier)
+    end
+    context "render" do
+      it "hash document" do
+        expect(subject.to_hash).to eq(document)
+      end
     end
   end
   
@@ -75,6 +85,11 @@ describe Jsonapi::Document::Data do
       expect(subject.resource.class).to eq(Array)
       expect(subject.resource.first.class).to eq(Jsonapi::Document::Resource)
     end
+    context "render" do
+      it "hash document" do
+        expect(subject.to_hash).to eq(document)
+      end
+    end
   end
   
   context "array of resource identifiers" do
@@ -88,6 +103,11 @@ describe Jsonapi::Document::Data do
     it "is parsed" do
       expect(subject.resource.class).to eq(Array)
       expect(subject.resource.first.class).to eq(Jsonapi::Document::ResourceIdentifier)
+    end
+    context "render" do
+      it "hash document" do
+        expect(subject.to_hash).to eq(document)
+      end
     end
   end
 end

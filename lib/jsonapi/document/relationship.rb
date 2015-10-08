@@ -16,13 +16,34 @@ module Jsonapi
         process_body(body[:links]) if body.has_key?(:links)
       end
       
-      def process_data(data)
-        @data = Document::ResourceIdentifier.process(data)
+      def to_hash
+        hash = {}
+        hash[type.to_sym] = {}
+        hash[type.to_sym].merge!(links: @links.to_hash) if @links
+        hash[type.to_sym].merge!(data: data_to_hash) if @data
+        hash
       end
+      
+      private
+        def process_data(data)
+          @data = Document::ResourceIdentifier.process(data)
+        end
 
-      def process_body(links)
-        @links = Document::Link.process(links)
-      end
+        def process_body(links)
+          @links = Document::Link.process(links)
+        end
+
+        def data_to_hash
+          if @data.is_a?(Array)
+            array = []
+            @data.each do |data|
+              array << data.to_hash
+            end
+            return array
+          else
+            @data.to_hash
+          end
+        end
     end
   end
 end

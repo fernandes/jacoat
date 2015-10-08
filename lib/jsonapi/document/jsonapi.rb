@@ -5,6 +5,10 @@ module Jsonapi
       def initialize(arguments = {})
         @version = arguments[:version]
       end
+      
+      def to_hash
+        {version: version}
+      end
     end
   end
 end

@@ -20,8 +20,9 @@ describe Jsonapi::Document::Resource do
     }
   }
   
+  subject { described_class.new(document) }
+
   describe "parses" do
-    subject { described_class.new(document) }
     it "id" do
       expect(subject.id).to eq("1")
     end
@@ -35,6 +36,12 @@ describe Jsonapi::Document::Resource do
       it "has title" do
         expect(subject.attributes.title).to eq("Rails is Omakase")
       end
+    end
+  end
+  
+  describe "render" do
+    it "hash document" do
+      expect(subject.to_hash).to eq(document)
     end
   end
 end

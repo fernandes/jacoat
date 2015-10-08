@@ -15,6 +15,10 @@ module Jsonapi
         @hash[:"#{m}"]
       end
       
+      def to_hash
+        @hash
+      end
+      
       private
         def process_meta(arguments)
           arguments.each_pair do |k, v|

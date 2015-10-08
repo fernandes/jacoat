@@ -31,13 +31,21 @@ module Jsonapi
         resources
       end
 
-      attr_accessor :resource
-      
-      def initialize(arguments = {})
-      end
-      
+      attr_accessor :resource      
       def resources
         @resource
+      end
+      
+      def to_hash
+        if @resource.is_a?(Array)
+          array = []
+          @resource.each do |data|
+            array << data.to_hash
+          end
+          return array
+        else
+          @resource.to_hash
+        end
       end
     end
   end

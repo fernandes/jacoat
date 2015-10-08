@@ -21,6 +21,11 @@ describe Jsonapi::Document::Link do
       it "has href" do
         expect(subject.self.href).to eq("http://example.com/posts")
       end
+      context "render" do
+        it "hash document" do
+          expect(subject.self.to_hash).to eq(document[:self])
+        end
+      end
     end
     context "second link" do
       it "is a complex one" do
@@ -34,6 +39,16 @@ describe Jsonapi::Document::Link do
       end
       it "has meta count" do
         expect(subject.related.meta.count).to eq(10)
+      end
+      context "render" do
+        it "hash document" do
+          expect(subject.related.to_hash).to eq(document[:related])
+        end
+      end
+    end
+    context "render" do
+      it "hash document" do
+        expect(subject.to_hash).to eq(document)
       end
     end
   end

@@ -13,6 +13,10 @@ module Jsonapi
         #getter
         @hash[:"#{m}"]
       end
+      
+      def to_hash
+        @hash
+      end
     end
   end
 end

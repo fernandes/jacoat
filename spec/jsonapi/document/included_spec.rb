@@ -47,4 +47,9 @@ describe Jsonapi::Document::Included do
   it "parses" do
     expect(subject.resources.size).to eq(3)
   end
+  context "render" do
+    it "hash document" do
+      expect(subject.to_hash).to eq(document)
+    end
+  end
 end

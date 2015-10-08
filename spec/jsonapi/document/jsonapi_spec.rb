@@ -10,4 +10,9 @@ describe Jsonapi::Document::Jsonapi do
   it "has version" do
     expect(subject.version).to eq("1.0")
   end
+  context "render" do
+    it "hash document" do
+      expect(subject.to_hash).to eq(document)
+    end
+  end
 end

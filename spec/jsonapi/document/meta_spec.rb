@@ -21,4 +21,9 @@ describe Jsonapi::Document::Meta do
   it "has authors" do
     expect(subject.authors).to eq(document[:authors])
   end
+  context "render" do
+    it "hash document" do
+      expect(subject.to_hash).to eq(document)
+    end
+  end
 end

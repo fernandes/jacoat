@@ -11,7 +11,12 @@ module Jsonapi
         included
       end
       attr_accessor :resources
-      def initialize(arguments = {})
+      def to_hash
+        array = []
+        @resources.each do |resource|
+          array << resource.to_hash
+        end
+        return array
       end
     end
   end
