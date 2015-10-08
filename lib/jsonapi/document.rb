@@ -28,6 +28,29 @@ module Jsonapi
       raise Invalid.new('data and errors keys set') if arguments.has_key?(:data) && arguments.has_key?(:errors)
     end
     
+    def to_hash
+      hash = {}
+      hash[:data] = data_hash if @data
+      %w{ errors meta jsonapi links included }.each do |type|
+        if self.instance_variable_defined?("@#{type}".to_sym)
+          hash[type.to_sym] = instance_variable_get("@#{type}".to_sym).to_hash
+        end
+      end
+      hash
+    end
+    
+    def data_hash
+      if @data.is_a?(Array)
+        array = []
+        @data.each do |data|
+          array << data.to_hash
+        end
+        return array
+      else
+        @data.to_hash
+      end
+    end
+    
     class Invalid < Exception; end
   end
 end

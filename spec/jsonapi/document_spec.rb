@@ -14,6 +14,11 @@ describe Jsonapi::Document do
         expect(subject.data.resource.type).to eq("articles")
         expect(subject.data.resource.id).to eq("1")
       end
+      context "render" do
+        it "hash document" do
+          expect(subject.to_hash).to eq(document)
+        end
+      end
     end
     context "with meta" do
       let(:document) {{
@@ -32,6 +37,11 @@ describe Jsonapi::Document do
         expect(subject.meta.copyright).to eq("Copyright 2015 Example Corp.")
         expect(subject.meta.authors.first).to eq("Yehuda Katz")
       end
+      context "render" do
+        it "hash document" do
+          expect(subject.to_hash).to eq(document)
+        end
+      end
     end
     context "with errors" do
       let(:document) {{
@@ -42,6 +52,11 @@ describe Jsonapi::Document do
       subject { described_class.new(document) }
       it "sets" do
         expect(subject.errors.to_hash).to eq(document[:errors])
+      end
+      context "render" do
+        it "hash document" do
+          expect(subject.to_hash).to eq(document)
+        end
       end
     end
     context "compound" do
@@ -125,6 +140,11 @@ describe Jsonapi::Document do
         end
         it "3 resources on included" do
           expect(subject.included.resources.size).to eq(3)
+        end
+      end
+      context "render" do
+        it "hash document" do
+          expect(subject.to_hash).to eq(document)
         end
       end
     end
