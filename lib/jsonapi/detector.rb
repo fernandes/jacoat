@@ -3,8 +3,8 @@ module Jsonapi
     def self.what_is(hash)
       return "compound" if is_compound?(hash)
       return "document" if is_document?(hash)
-      return "resource_identifier" if is_resource_identifier?(hash)
       return "resource" if is_resource?(hash)
+      return "resource_identifier" if is_resource_identifier?(hash)
     end
     
     def self.is_compound?(hash)

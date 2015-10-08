@@ -20,7 +20,7 @@ module Jsonapi
       def to_hash
         hash = {
           type: @type,
-          id: @id,
+          id: @id.to_s,
           attributes: @attributes.to_hash
         }
         hash.merge!(links: @links.to_hash) if @links

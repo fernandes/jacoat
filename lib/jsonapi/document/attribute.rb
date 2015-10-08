@@ -15,7 +15,7 @@ module Jsonapi
       end
       
       def to_hash
-        @hash
+        proc = Proc.new { |k, v| v.kind_of?(Hash) ? (v.delete_if(&proc); nil) : v.nil? }; @hash.delete_if(&proc)
       end
     end
   end

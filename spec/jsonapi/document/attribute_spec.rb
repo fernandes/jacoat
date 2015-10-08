@@ -22,4 +22,24 @@ describe Jsonapi::Document::Attributes do
       expect(subject.to_hash).to eq(document)
     end
   end
+  
+  context "with invalid attributes" do
+    let(:document) {
+      {
+        "title": "Ember Hamster",
+        "src": nil
+      }
+    }
+    let(:rendered) {
+      {
+        "title": "Ember Hamster"
+      }
+    }
+    subject { described_class.new(document) }
+    context "render" do
+      it "hash document" do
+        expect(subject.to_hash).to eq(rendered)
+      end
+    end
+  end
 end
