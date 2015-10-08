@@ -25,8 +25,12 @@ module Jsonapi
     end
     
     def self.is_resource?(hash)
+      # resource when parsing (must have id)
       return true if hash.has_key?(:type) &&
                      hash.has_key?(:id) &&
+                     hash.has_key?(:attributes)
+      # or a resource when being created (without id)
+      return true if hash.has_key?(:type) &&
                      hash.has_key?(:attributes)
     end
   end

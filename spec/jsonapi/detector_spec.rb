@@ -146,5 +146,24 @@ describe Jsonapi::Detector do
       expect(described_class.what_is(document)).to eq('resource')
     end
     
+    it "resource without id" do
+      document = {
+        "type": "articles",
+        "attributes": {
+          "title": "Rails is Omakase"
+        },
+        "relationships": {
+          "author": {
+            "links": {
+              "self": "/articles/1/relationships/author",
+              "related": "/articles/1/author"
+            },
+            "data": { "type": "people", "id": "9" }
+          }
+        }
+      }
+      expect(described_class.what_is(document)).to eq('resource')
+    end
+    
   end
 end
