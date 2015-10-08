@@ -41,8 +41,7 @@ describe Jsonapi::Document do
       }}
       subject { described_class.new(document) }
       it "sets" do
-        # TODO: implement error
-        # expect(subject.errors).to eq(document[:errors])
+        expect(subject.errors.to_hash).to eq(document[:errors])
       end
     end
     context "compound" do

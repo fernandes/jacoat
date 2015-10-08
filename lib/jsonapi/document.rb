@@ -15,7 +15,7 @@ module Jsonapi
     def initialize(arguments = {})
       validate_arguments(arguments)
       @data = Data.process(arguments[:data]) if arguments.has_key?(:data)
-      # @errors = Error.new
+      @errors = Error.new(arguments[:errors]) if arguments.has_key?(:errors)
       @meta = Meta.new(arguments[:meta]) if arguments.has_key?(:meta) 
       @jsonapi = Jsonapi.new(arguments[:jsonapi]) if arguments.has_key?(:jsonapi)
       @links = Link.process(arguments[:links]) if arguments.has_key?(:links)
