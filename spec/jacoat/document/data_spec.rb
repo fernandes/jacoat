@@ -20,7 +20,7 @@ describe Jacoat::Document::Data do
         }
       }
     }
-    subject { described_class.process(document) }
+    subject { described_class.from_jsonapi(document) }
     it "is parsed" do
       expect(subject.resource.class).to eq(Jacoat::Document::Resource)
     end
@@ -35,7 +35,7 @@ describe Jacoat::Document::Data do
     let(:document) {
       { "type": "people", "id": "12" }
     }
-    subject { described_class.process(document) }
+    subject { described_class.from_jsonapi(document) }
     it "is parsed" do
       expect(subject.resource.class).to eq(Jacoat::Document::ResourceIdentifier)
     end
@@ -80,7 +80,7 @@ describe Jacoat::Document::Data do
         }
       ]
     }
-    subject { described_class.process(document) }
+    subject { described_class.from_jsonapi(document) }
     it "is parsed" do
       expect(subject.resource.class).to eq(Array)
       expect(subject.resource.first.class).to eq(Jacoat::Document::Resource)
@@ -99,7 +99,7 @@ describe Jacoat::Document::Data do
         { "type": "tags", "id": "3" }
       ]
     }
-    subject { described_class.process(document) }
+    subject { described_class.from_jsonapi(document) }
     it "is parsed" do
       expect(subject.resource.class).to eq(Array)
       expect(subject.resource.first.class).to eq(Jacoat::Document::ResourceIdentifier)

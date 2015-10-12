@@ -9,7 +9,7 @@ describe Jacoat::Document::ResourceIdentifier do
       }
     }
   
-    subject { described_class.process(document) }
+    subject { described_class.from_jsonapi(document) }
     describe "parses" do
       it "id" do
         expect(subject.id).to eq("1")
@@ -38,7 +38,7 @@ describe Jacoat::Document::ResourceIdentifier do
       }
     }
   
-    subject { described_class.process(document) }
+    subject { described_class.from_jsonapi(document) }
     describe "parses" do
       it "id" do
         expect(subject.id).to eq("1")
@@ -75,7 +75,7 @@ describe Jacoat::Document::ResourceIdentifier do
       }
     }
   
-    subject { described_class.process(document) }
+    subject { described_class.from_jsonapi(document) }
     describe "parses" do
       it "id" do
         expect(subject.id).to eq("1")

@@ -1,6 +1,12 @@
 module Jacoat
   class Document
     class Attributes
+      attr_reader :hash
+
+      def self.from_jsonapi(arguments = {})
+        Attributes.new(arguments)
+      end
+
       def initialize(arguments = {})
         @hash = arguments
       end

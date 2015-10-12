@@ -20,7 +20,7 @@ describe Jacoat::Document::Resource do
     }
   }
   
-  subject { described_class.new(document) }
+  subject { described_class.from_jsonapi(document) }
 
   describe "parses" do
     it "id" do

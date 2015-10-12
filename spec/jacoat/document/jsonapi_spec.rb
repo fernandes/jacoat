@@ -6,7 +6,7 @@ describe Jacoat::Document::Jsonapi do
       "version": "1.0"
     }
   }
-  subject { described_class.new(document) }
+  subject { described_class.from_jsonapi(document) }
   it "has version" do
     expect(subject.version).to eq("1.0")
   end

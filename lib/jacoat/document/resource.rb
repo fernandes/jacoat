@@ -1,19 +1,25 @@
 module Jacoat
   class Document
     class Resource
-      attr_reader :id, :type, :attributes, :links, :relationships
-      def initialize(arguments)
-        @id = arguments[:id]
-        @type = arguments[:type]
-        @attributes = Document::Attributes.new(arguments[:attributes])
-        create_relationships(arguments[:relationships]) if arguments.has_key?(:relationships)
-        @links = Link.process(arguments[:links]) if arguments.has_key?(:links)
+      attr_accessor :id, :type, :attributes, :links, :relationships
+
+      def self.from_jsonapi(arguments)
+        resource = Resource.new(arguments[:id], arguments[:type])
+        resource.attributes = Document::Attributes.from_jsonapi(arguments[:attributes])
+        resource.create_relationships(arguments[:relationships]) if arguments.has_key?(:relationships)
+        resource.links = Link.from_jsonapi(arguments[:links]) if arguments.has_key?(:links)
+        resource
+      end
+
+      def initialize(id, type)
+        @id = id
+        @type = type
       end
       
       def create_relationships(hash)
         @relationships = []
         hash.each_pair do |k, v|
-          @relationships << Document::Relationship.new(k, v)
+          @relationships << Document::Relationship.new(k).process_jsonapi(v)
         end
       end
       

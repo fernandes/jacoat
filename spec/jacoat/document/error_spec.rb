@@ -21,7 +21,7 @@ describe Jacoat::Document::Error do
       }
     }
   }
-  subject { described_class.new(document) }
+  subject { described_class.from_jsonapi(document) }
   it "has id" do
     expect(subject.id).to eq(document[:id])
   end

@@ -2,28 +2,32 @@ module Jacoat
   class Document
     class ResourceIdentifier
       attr_reader :id, :type, :relationships
-      def self.process(body)
+      def self.from_jsonapi(body)
         if body.is_a?(Array)
           resources = []
           body.each do |item|
-            resources << ResourceIdentifier.new(item)
+            resources << ResourceIdentifier.new(item[:id], item[:type]).process_jsonapi(item)
           end
         else
-          resources = ResourceIdentifier.new(body)
+          resources = ResourceIdentifier.new(body[:id], body[:type]).process_jsonapi(body)
         end
         resources
       end
 
-      def initialize(arguments)
-        @id = arguments[:id]
-        @type = arguments[:type]
+      def initialize(id, type)
+        @id = id
+        @type = type
+      end
+      
+      def process_jsonapi(arguments)
         create_relationships(arguments[:relationships]) if arguments.has_key?(:relationships)
+        self
       end
 
       def create_relationships(hash)
         @relationships = []
         hash.each_pair do |k, v|
-          @relationships << Document::Relationship.new(k, v)
+          @relationships << Document::Relationship.new(k).process_jsonapi(v)
         end
       end
       

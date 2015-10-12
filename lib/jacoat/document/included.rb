@@ -1,10 +1,10 @@
 module Jacoat
   class Document
     class Included
-      def self.process(arguments)
+      def self.from_jsonapi(arguments)
         resources = []
         arguments.each do |item|
-          resources << Resource.new(item)
+          resources << Resource.from_jsonapi(item)
         end
         included = Included.new
         included.resources = resources

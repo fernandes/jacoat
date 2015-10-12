@@ -7,7 +7,7 @@ describe Jacoat::Document::Attributes do
       "src": "http://example.com/images/productivity.png"
     }
   }
-  subject { described_class.new(document) }
+  subject { described_class.from_jsonapi(document) }
   context "created" do
     it "has title" do
       expect(subject.title).to eq("Ember Hamster")
@@ -35,7 +35,7 @@ describe Jacoat::Document::Attributes do
         "title": "Ember Hamster"
       }
     }
-    subject { described_class.new(document) }
+    subject { described_class.from_jsonapi(document) }
     context "render" do
       it "hash document" do
         expect(subject.to_hash).to eq(rendered)

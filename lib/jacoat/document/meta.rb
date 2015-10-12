@@ -1,9 +1,14 @@
 module Jacoat
   class Document
     class Meta
+      def self.from_jsonapi(arguments)
+        meta = Meta.new
+        meta.process_meta(arguments)
+        meta
+      end
+
       def initialize(arguments = {})
         @hash = {}
-        process_meta(arguments)
       end
       
       def method_missing(m, *args)
@@ -19,12 +24,11 @@ module Jacoat
         @hash
       end
       
-      private
-        def process_meta(arguments)
-          arguments.each_pair do |k, v|
-            send("#{k}=", v)
-          end
+      def process_meta(arguments)
+        arguments.each_pair do |k, v|
+          send("#{k}=", v)
         end
+      end
     end
   end
 end

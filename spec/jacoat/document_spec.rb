@@ -9,7 +9,7 @@ describe Jacoat::Document do
           "id": "1"
         }
       }}
-      subject { described_class.new(document) }
+      subject { described_class.from_jsonapi(document) }
       it "sets" do
         expect(subject.data.resource.type).to eq("articles")
         expect(subject.data.resource.id).to eq("1")
@@ -25,7 +25,7 @@ describe Jacoat::Document do
       let(:document) {{
         "data": nil
       }}
-      subject { described_class.new(document) }
+      subject { described_class.from_jsonapi(document) }
       it "sets" do
         expect(subject.data.resource.nil?).to eq(true)
       end
@@ -48,7 +48,7 @@ describe Jacoat::Document do
           ]
         }
       }}
-      subject { described_class.new(document) }
+      subject { described_class.from_jsonapi(document) }
       it "sets" do
         expect(subject.meta.copyright).to eq("Copyright 2015 Example Corp.")
         expect(subject.meta.authors.first).to eq("Yehuda Katz")
@@ -65,7 +65,7 @@ describe Jacoat::Document do
           "code": "100"
         }
       }}
-      subject { described_class.new(document) }
+      subject { described_class.from_jsonapi(document) }
       it "sets" do
         expect(subject.errors.to_hash).to eq(document[:errors])
       end
@@ -149,7 +149,7 @@ describe Jacoat::Document do
           }]
         }
       }
-      subject { described_class.new(document) }
+      subject { described_class.from_jsonapi(document) }
       context "parses" do
         it "2 resources on data" do
           expect(subject.data.resources.size).to eq(1)
@@ -177,8 +177,11 @@ describe Jacoat::Document do
           "code": "100"
         }
       }}
-      it "raise Exception" do
-        expect { described_class.new(document) }.to raise_error(Jacoat::Document::Invalid, /data and errors keys set/)
+      it "#validate_arguments raise Exception" do
+        expect { described_class.from_jsonapi(document).validate_arguments }.to raise_error(Jacoat::Document::Invalid, /data and errors keys set/)
+      end
+      it "#valid? returns false" do
+        expect(described_class.from_jsonapi(document).valid?).to be_falsey
       end
     end
     
@@ -192,8 +195,11 @@ describe Jacoat::Document do
           "code": "100"
         }
       }}
-      it "raise Exception" do
-        expect { described_class.new(document) }.to raise_error(Jacoat::Document::Invalid, /must contain data, errors or meta key/)
+      it "#validate_arguments raise Exception" do
+        expect { described_class.from_jsonapi(document).validate_arguments }.to raise_error(Jacoat::Document::Invalid, /must contain data, errors or meta key/)
+      end
+      it "#valid? returns false" do
+        expect(described_class.from_jsonapi(document).valid?).to be_falsey
       end
     end
     
@@ -212,8 +218,11 @@ describe Jacoat::Document do
           }
         }]
       }}
-      it "raise Exception" do
-        expect { described_class.new(document) }.to raise_error(Jacoat::Document::Invalid, /included key without data key/)
+      it "#validate_arguments raise Exception" do
+        expect { described_class.from_jsonapi(document).validate_arguments }.to raise_error(Jacoat::Document::Invalid, /included key without data key/)
+      end
+      it "#valid? returns false" do
+        expect(described_class.from_jsonapi(document).valid?).to be_falsey
       end
     end
   end

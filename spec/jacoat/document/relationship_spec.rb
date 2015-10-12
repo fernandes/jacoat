@@ -23,7 +23,7 @@ describe Jacoat::Document::Relationship do
         }
       }
     }
-    subject {described_class.process(document) }
+    subject {described_class.from_jsonapi(document) }
     it "create 2 relationships" do
       expect(subject.size).to eq(2)
     end
@@ -50,7 +50,7 @@ describe Jacoat::Document::Relationship do
       }
     }
   
-    subject { described_class.new("author", document) }
+    subject { described_class.new("author").process_jsonapi(document) }
     describe "parses" do
       it "type" do
         expect(subject.type).to eq("author")
@@ -87,7 +87,7 @@ describe Jacoat::Document::Relationship do
       }
     }
   
-    subject { described_class.new("comments", document) }
+    subject { described_class.new("comments").process_jsonapi(document) }
     describe "parses" do
       it "type" do
         expect(subject.type).to eq("comments")

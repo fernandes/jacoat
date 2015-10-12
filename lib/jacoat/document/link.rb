@@ -1,13 +1,14 @@
 module Jacoat
   class Document
     class Link
-      def self.process(hash)
-        Link.new(hash)
+      def self.from_jsonapi(hash)
+        link = Link.new
+        link.process_links(hash)
+        link
       end
 
-      def initialize(arguments = {})
+      def initialize
         @hash = {}
-        process_links(arguments)
       end
       
       def method_missing(m, *args)
@@ -26,18 +27,18 @@ module Jacoat
         end
         hash
       end
-      
-      private      
-        def process_links(arguments)
-          arguments.each_pair do |k, v|
-            if v.is_a?(String)
-              link = Simple.new(v)
-            else
-              link = Complex.new(v)
-            end
-            send("#{k}=", link)
+         
+      def process_links(arguments)
+        return if arguments.nil?
+        arguments.each_pair do |k, v|
+          if v.is_a?(String)
+            link = Simple.new(v)
+          else
+            link = Complex.new(v)
           end
+          send("#{k}=", link)
         end
+      end
       
       class Simple
         attr_reader :href
@@ -54,7 +55,7 @@ module Jacoat
         attr_reader :href, :meta
         def initialize(arguments)
           @href = arguments[:href]
-          @meta = Meta.new(arguments[:meta])
+          @meta = Meta.from_jsonapi(arguments[:meta])
         end
         
         def to_hash

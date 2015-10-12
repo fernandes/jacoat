@@ -1,7 +1,7 @@
 module Jacoat
   class Document
     class Data
-      def self.process(arguments)
+      def self.from_jsonapi(arguments)
         data = Data.new
         if arguments.is_a?(Array)
           data.resource = create_resource_array(arguments)
@@ -14,9 +14,9 @@ module Jacoat
       def self.create_resource(arguments)
         return nil if arguments.nil?
         if Detector.what_is(arguments) == "resource"
-          return Resource.new(arguments)
+          return Resource.from_jsonapi(arguments)
         else
-          return ResourceIdentifier.new(arguments)
+          return ResourceIdentifier.from_jsonapi(arguments)
         end
       end
       
@@ -24,15 +24,18 @@ module Jacoat
         resources = []
         arguments.each do |resource|
           if Detector.what_is(resource) == "resource"
-            resources << Resource.new(resource)
+            resources << Resource.from_jsonapi(resource)
           else
-            resources << ResourceIdentifier.new(resource)
+            resources << ResourceIdentifier.from_jsonapi(resource)
           end
         end
         resources
       end
 
-      attr_accessor :resource      
+      attr_accessor :resource
+      def resources=(resources)
+        @resource = resources
+      end
       def resources
         @resource
       end

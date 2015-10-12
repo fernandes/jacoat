@@ -1,14 +1,16 @@
 module Jacoat
   class Document
     class Error
-      attr_reader :id, :links, :status, :code, :title, :detail, :meta
-      def initialize(arguments = {})
-        @id = arguments[:id]
-        @links = Link.process(arguments[:links]) if arguments.has_key?(:links)
+      attr_accessor :id, :links, :status, :code, :title, :detail, :meta
+      def self.from_jsonapi(arguments)
+        error = Error.new
+        error.id = arguments[:id]
+        error.links = Link.from_jsonapi(arguments[:links]) if arguments.has_key?(:links)
         %w{ status code title detail }.each do |type|
-          self.instance_variable_set("@#{type}", arguments[type.to_sym]) if arguments.has_key?(type.to_sym)
+          error.instance_variable_set("@#{type}", arguments[type.to_sym]) if arguments.has_key?(type.to_sym)
         end
-        @meta = Meta.new(arguments[:meta]) if arguments.has_key?(:meta)
+        error.meta = Meta.from_jsonapi(arguments[:meta]) if arguments.has_key?(:meta)
+        error
       end
       
       def to_hash

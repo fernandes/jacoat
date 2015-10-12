@@ -13,7 +13,7 @@ describe Jacoat::Document::Link do
         }
       }
     }
-    subject { described_class.process(document) }
+    subject { described_class.from_jsonapi(document) }
     context "first link" do
       it "is a simple one" do
         expect(subject.self.class).to eq(described_class::Simple)

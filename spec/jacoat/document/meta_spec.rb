@@ -14,7 +14,7 @@ describe Jacoat::Document::Meta do
     }
   }
   
-  subject { described_class.new(document) }
+  subject { described_class.from_jsonapi(document) }
   it "has copyright" do
     expect(subject.copyright).to eq(document[:copyright])
   end

@@ -43,7 +43,7 @@ describe Jacoat::Document::Included do
       }
     }]
   }
-  subject { described_class.process(document) }
+  subject { described_class.from_jsonapi(document) }
   it "parses" do
     expect(subject.resources.size).to eq(3)
   end
