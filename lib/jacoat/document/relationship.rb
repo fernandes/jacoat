@@ -1,7 +1,7 @@
 module Jacoat
   class Document
     class Relationship
-      attr_reader :id, :type, :data, :links
+      attr_accessor :id, :type, :data, :links
       def self.from_jsonapi(hash)
         relationships = []
         hash.each_pair do |k, v|

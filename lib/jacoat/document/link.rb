@@ -40,6 +40,16 @@ module Jacoat
         end
       end
       
+      def add_link(title, href, options = {})
+        if options.empty?
+          link = Simple.new(href)
+        else
+          link = Complex.new(href: href, meta: options)
+        end
+        send("#{title}=", link)
+        self
+      end
+      
       class Simple
         attr_reader :href
         def initialize(href)

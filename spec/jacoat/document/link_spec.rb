@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Jacoat::Document::Link do
-  context ".process" do
+  context ".from_jsonapi" do
     let(:document) {
       {
         "self": "http://example.com/posts",
@@ -48,6 +48,28 @@ describe Jacoat::Document::Link do
     end
     context "render" do
       it "hash document" do
+        expect(subject.to_hash).to eq(document)
+      end
+    end
+  end
+  
+  context "#add_link" do
+    let(:document) {
+      {
+        "self": "http://example.com/posts",
+        "related": {
+          "href": "http://example.com/articles/1/comments",
+           "meta": {
+             "count": 10
+           }
+        }
+      }
+    }
+    subject { described_class.new }
+    context "2 links" do
+      it "renders the right hash" do
+        subject.add_link("self", "http://example.com/posts")
+        subject.add_link("related", "http://example.com/articles/1/comments", {count: 10})
         expect(subject.to_hash).to eq(document)
       end
     end

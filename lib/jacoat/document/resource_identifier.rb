@@ -1,7 +1,7 @@
 module Jacoat
   class Document
     class ResourceIdentifier
-      attr_reader :id, :type, :relationships
+      attr_accessor :id, :type, :relationships
       def self.from_jsonapi(body)
         if body.is_a?(Array)
           resources = []
