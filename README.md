@@ -1,5 +1,7 @@
 # Jacoat
 
+[![Build Status](https://travis-ci.org/fernandes/jacoat.svg)](https://travis-ci.org/fernandes/jacoat)
+
 Jacoat is a Ruby Coat for your JSON-API Hashes
 
 ## Installation
